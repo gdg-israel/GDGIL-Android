@@ -1,25 +1,24 @@
 package com.gdg.israel;
 
 import android.app.Activity;
-;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class GDGIsraelMainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    private static final int ABOUT_POSITION = 2;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,9 +49,29 @@ public class GDGIsraelMainActivity extends Activity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+
+        if (position == ABOUT_POSITION) {
+            onSectionAttached(position + 1);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, GDGIsraelAboutFragment.newInstance())
+                    .commit();
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     public void onSectionAttached(int number) {
