@@ -1,5 +1,6 @@
 ###Gradle###
 .gradle
+gradle/wrapper/gradle-wrapper.jar
 
 ###Android###
  
@@ -38,7 +39,6 @@ local.properties
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
